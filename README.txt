@@ -295,3 +295,54 @@ A docker container is an instance of an image, it is manufactured with the "dock
 
 The Mac disk image grows every time a new docker image is started. Could also be Docker.raw, depending on Mac formats.
 rm ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/Docker.qcow2
+
+
+
+7. Execute commands while outside of a container
+
+From outside of the container, start the container back up:
+>> docker start teachme
+
+Issue a simple command from within the container:
+>> docker exec teachme ls /wrf/WRF/test/em_real | grep wrfo
+wrfout_d01_2016-03-23_00:00:00
+wrfout_d01_2016-03-23_03:00:00
+wrfout_d01_2016-03-23_06:00:00
+wrfout_d01_2016-03-23_09:00:00
+wrfout_d01_2016-03-23_12:00:00
+wrfout_d01_2016-03-23_15:00:00
+wrfout_d01_2016-03-23_18:00:00
+wrfout_d01_2016-03-23_21:00:00
+wrfout_d01_2016-03-24_00:00:00
+
+But let's say you want to do something more involved and complicated. Here is a short script that gets copied into the shared visible volume:
+cat OUTPUT/test_things.csh 
+#!/bin/csh
+
+echo Files
+ls -ls /wrf/WRF/test/em_real/wrfout_d01*
+ls -1 /wrf/WRF/test/em_real/wrfout_d01* > /wrf/wrfoutput/list
+echo
+set file = `cat /wrf/wrfoutput/list | tail -1`
+ncdump $file | grep -i nan | grep -v DOMINANT >& /dev/null
+set OOPS = $status
+if ( $OOPS == 0 ) then
+	echo NaNs: found nans in $file
+else
+	echo NaNs: None found in $file
+endif
+
+Run the script from within the container
+>> docker exec teachme /wrf/wrfoutput/test_things.csh
+Files
+18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:49 /wrf/WRF/test/em_real/wrfout_d01_2016-03-23_00:00:00
+18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:49 /wrf/WRF/test/em_real/wrfout_d01_2016-03-23_03:00:00
+18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:50 /wrf/WRF/test/em_real/wrfout_d01_2016-03-23_06:00:00
+18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:50 /wrf/WRF/test/em_real/wrfout_d01_2016-03-23_09:00:00
+18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:50 /wrf/WRF/test/em_real/wrfout_d01_2016-03-23_12:00:00
+18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:51 /wrf/WRF/test/em_real/wrfout_d01_2016-03-23_15:00:00
+18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:52 /wrf/WRF/test/em_real/wrfout_d01_2016-03-23_18:00:00
+18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:52 /wrf/WRF/test/em_real/wrfout_d01_2016-03-23_21:00:00
+18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:53 /wrf/WRF/test/em_real/wrfout_d01_2016-03-24_00:00:00
+
+NaNs: None found in /wrf/WRF/test/em_real/wrfout_d01_2016-03-24_00:00:00
