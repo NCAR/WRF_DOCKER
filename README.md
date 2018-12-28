@@ -35,12 +35,11 @@ docker   run   -it   --name   teachme   -v   `pwd`/OUTPUT:/wrf/wrfoutput   wrf_t
 
 #### Regtest ####
 
-The purpose of the regression test is to allow a specifically built container to conduct a number of tests. We stay outside of the container for the regression test case.
+The purpose of the regression test is to allow a specifically built container to conduct a number of tests. We stay outside of the container for the regression test case. Because of the way that we started this container, we need to explicitly "stop" it after we are finished.
 
 ```
 docker   build   -t   wrf_regtest  .
 docker   run   -d -t   --name   test_001   wrf_regtest   /bin/tcsh
-docker   exec  test_001   chmod +x script.csh
 docker   exec  test_001   ./script.csh   BUILD   CLEAN   34   1   em_real -d
 docker   exec  test_001   ./script.csh   RUN   em_real   34   em_real 03
 docker   stop  test_001
