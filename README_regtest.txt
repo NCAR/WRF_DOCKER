@@ -15,10 +15,6 @@ We can verify that we have this container running:
 ```
 docker ps -a
 ```
-Make the script we are going to run an executable:
-```
-docker exec test_001 chmod 744 script.csh
-```
 For test 001, we are going to do an MPI build for em_real, single precision, with configure -d (currently, must be GNU). Depending on your processor, this takes about 5 minutes to build the WRF executable from source.
 ```
 docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d
@@ -43,4 +39,18 @@ end
 Because we set up the container to keep running, we need to explicitly stop it.
 ```
 docker stop test_001
+```
+Without additional explanation, nmm_real:
+```
+docker run -d -t --name test_002 wrf_regtest
+
+docker exec ./script.csh BUILD CLEAN 34 1 nmm_real -d WRF_NMM_CORE=1
+set OK = $status
+echo $OK
+
+foreach t ( 01 01c 03 04a 06 07 15 )
+	docker exec test_002 ./script.csh RUN nmm_real 34 nmm_nest $t
+	set OK = $status
+	echo $OK for test $t
+end
 ```
