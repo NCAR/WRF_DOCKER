@@ -40,3 +40,7 @@ foreach t ( 03 03DF 03FD 03VN 06 06VN 07 07NE 07VN 09 09QT 10 10VN 11 14 16 16DF
 	echo $OK for test $t
 end
 ```
+Because we set up the container to keep running, we need to explicitly stop it.
+```
+docker stop test_001
+```

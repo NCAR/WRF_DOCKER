@@ -43,5 +43,6 @@ docker   run   -d -t   --name   test_001   wrf_regtest   /bin/tcsh
 docker   exec  test_001   chmod +x script.csh
 docker   exec  test_001   ./script.csh   BUILD   CLEAN   34   1   em_real -d
 docker   exec  test_001   ./script.csh   RUN   em_real   34   em_real 03
+docker   stop  test_001
 ```
 
