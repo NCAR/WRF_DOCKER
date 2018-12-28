@@ -2,7 +2,7 @@
 
 John Exby and Kate Fossell provided a method to encapsulate the WRF modeling system with a container. 
 
-From there work, we have modified the Dockerfiles to work with new code, and a couple of separate use cases. The Dockerfiles include
+From their work, we have modified the Dockerfiles to work with new code, and a couple of separate use cases. The Dockerfiles include
    * Source code for WRF and WPS, from github
    * External libraries required to build WRF and WPS
    * Construct enough of an OS to have traditional user-level Linux capabilities
