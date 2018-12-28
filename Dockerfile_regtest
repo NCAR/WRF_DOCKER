@@ -78,7 +78,7 @@ RUN curl -SL http://www2.mmm.ucar.edu/wrf/dave/data_v04.08.tar.gz | tar -xzC /wr
 #
 RUN curl -SL http://www2.mmm.ucar.edu/wrf/dave/nml.tar.gz | tar -xzC /wrf
 #
-RUN curl -SLO http://www2.mmm.ucar.edu/wrf/dave/script.csh
+RUN curl -SL http://www2.mmm.ucar.edu/wrf/dave/script.tar | tar -xC /wrf
 #
 # Download NCL
 #
