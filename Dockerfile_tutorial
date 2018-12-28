@@ -4,7 +4,9 @@ MAINTAINER John Exby <exby@ucar.edu>
 # 
 RUN curl -SL https://ral.ucar.edu/sites/default/files/public/projects/ncar-docker-wrf/ucar-bsd-3-clause-license.pdf > /UCAR-BSD-3-Clause-License.pdf
 #
-ENV WRF_VERSION 4.0.2
+ENV WRF_VERSION 4.0.3
+ENV WPS_VERSION 4.0.2
+ENV NML_VERSION 4.0.2
 #
 # Set up base OS environment
 #
@@ -43,13 +45,13 @@ RUN echo export LDFLAGS="-lm" >> /etc/bashrc \
  && echo export JASPERINC=/usr/include/jasper/ >> /etc/bashrc \
  && echo export JASPERLIB=/usr/lib64/ >> /etc/bashrc \
  && echo export LD_LIBRARY_PATH="/usr/lib64/openmpi/lib" >> /etc/bashrc \
- && echo export PATH="/usr/lib64/openmpi/bin:$PATH" >> /etc/bashrc \
+ && echo export PATH=".:/usr/lib64/openmpi/bin:$PATH" >> /etc/bashrc \
  && echo setenv LDFLAGS "-lm" >> /etc/csh.cshrc \
  && echo setenv NETCDF "/wrf/netcdf_links" >> /etc/csh.cshrc \
  && echo setenv JASPERINC "/usr/include/jasper/" >> /etc/csh.cshrc \
  && echo setenv JASPERLIB "/usr/lib64/" >> /etc/csh.cshrc \
  && echo setenv LD_LIBRARY_PATH "/usr/lib64/openmpi/lib" >> /etc/csh.cshrc \
- && echo setenv PATH "/usr/lib64/openmpi/bin:$PATH" >> /etc/csh.cshrc
+ && echo setenv PATH ".:/usr/lib64/openmpi/bin:$PATH" >> /etc/csh.cshrc
 #
 #
 RUN mkdir /wrf/.ssh ; echo "StrictHostKeyChecking no" > /wrf/.ssh/config
@@ -68,7 +70,7 @@ RUN curl -SL http://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.t
 #
 RUN curl -SL http://www2.mmm.ucar.edu/wrf/TUTORIAL_DATA/colorado_march16.new.tar.gz | tar -xzC /wrf/wrfinput
 #
-RUN curl -SL http://www2.mmm.ucar.edu/wrf/src/namelists_v4.0.2.tar.gz  | tar -xzC /wrf/wrfinput
+RUN curl -SL http://www2.mmm.ucar.edu/wrf/src/namelists_v$NML_VERSION.tar.gz  | tar -xzC /wrf/wrfinput
 #
 RUN curl -SL http://www2.mmm.ucar.edu/wrf/TUTORIAL_DATA/WRF_NCL_scripts.tar.gz | tar -xzC /wrf
 #
@@ -79,9 +81,9 @@ ENV NCARG_ROOT /usr/local
 #
 #
 # Download wrf and wps source, Version 4.0 and later
-RUN curl -SL https://github.com/wrf-model/WPS/archive/v$WRF_VERSION.tar.gz | tar zxC /wrf \
+RUN curl -SL https://github.com/wrf-model/WPS/archive/v$WPS_VERSION.tar.gz | tar zxC /wrf \
  && curl -SL https://github.com/wrf-model/WRF/archive/v$WRF_VERSION.tar.gz | tar zxC /wrf
-RUN mv /wrf/WPS-$WRF_VERSION /wrf/WPS
+RUN mv /wrf/WPS-$WPS_VERSION /wrf/WPS
 RUN mv /wrf/WRF-$WRF_VERSION /wrf/WRF
 ENV NETCDF_classic 1
 #
