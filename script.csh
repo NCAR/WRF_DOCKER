@@ -37,6 +37,7 @@ if      ( $WHICH_FUNCTION == BUILD ) then
 		set PACKAGE = $1
 		set loc = `awk -v a="$PACKAGE" -v b="$str" 'BEGIN{print index(a,b)}'`
 		if ( $loc != 0 ) then
+			echo $PACKAGE > .orig_with_at
 			sed -e 's/@/ /g' .orig_with_at > .new_without_at
 			set PACKAGE = `cat .new_without_at`
 		endif
