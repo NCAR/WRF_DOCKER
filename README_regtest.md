@@ -75,3 +75,38 @@ end
 
 docker stop test_003
 ```
+
+#### Ideal: QSS ####
+```
+docker run -d -t --name test_004 wrf_regtest
+
+docker exec test_004 ./script.csh BUILD CLEAN 34 1 em_quarter_ss -d J=-j@3
+set OK = $status
+echo $OK
+
+foreach t ( 02 02NE 03 03NE 04 04NE 05 05NE 06 06NE 08 09 10 11NE 12NE 13NE 14NE )
+	docker exec test_004 ./script.csh RUN em_quarter_ss 34 em_quarter_ss $t
+	set OK = $status
+	echo $OK for test $t
+end
+
+docker stop test_004
+```
+
+#### Ideal: B Wave ####
+```
+docker run -d -t --name test_005 wrf_regtest
+
+docker exec test_005 ./script.csh BUILD CLEAN 34 1 em_b_wave -d J=-j@3
+set OK = $status
+echo $OK
+
+
+foreach t ( 1 1NE 2 2NE 3 3NE 4 4NE 5 5NE )
+	docker exec test_005 ./script.csh RUN em_b_wave 34 em_b_wave $t
+	set OK = $status
+	echo $OK for test $t
+end
+
+docker stop test_005
+```
