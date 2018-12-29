@@ -40,7 +40,9 @@ Because we set up the container to keep running, we need to explicitly stop it.
 ```
 docker stop test_001
 ```
-Without additional explanation, nmm_real is built, run, and stopped from the same image as em_real:
+Without additional explanation, the following are built, run, and (importantly) stopped.
+
+#### NMM ####
 ```
 docker run -d -t --name test_002 wrf_regtest
 
@@ -55,4 +57,21 @@ foreach t ( 01 01c 03 04a 06 07 15 )
 end
 
 docker stop test_002
+```
+
+#### Chem ####
+```
+docker run -d -t --name test_003 wrf_regtest
+
+docker exec test_003 ./script.csh BUILD CLEAN 34 1 em_real -d WRF_CHEM=1
+set OK = $status
+echo $OK
+
+foreach t ( 1 2 5 )
+	docker exec test_003 ./script.csh RUN em_real 34 em_chem $t
+	set OK = $status
+	echo $OK for test $t
+end
+
+docker stop test_003
 ```
