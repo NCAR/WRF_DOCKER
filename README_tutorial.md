@@ -89,6 +89,7 @@ So far we have built our image (the `docker build` step), we have gone in and ou
 ```
 
      NOTE: select build option "34" (GNU with DM parallelism), and choose nesting option "1" (which is just regular, non-moving nests)  
+
 ```
     ./compile em_real >&! foo
 ```
