@@ -126,25 +126,27 @@ So far we have built our image (the `docker build` step), we have gone in and ou
     0 lrwxrwxrwx 1 wrfuser wrf 23 Nov 30 21:12 metgrid.exe -> metgrid/src/metgrid.exe
     0 lrwxrwxrwx 1 wrfuser wrf 21 Nov 30 21:12 ungrib.exe -> ungrib/src/ungrib.exe
 ```
-6. Run WPS
+6. Run WPS, small namelist changes
    * cd to the WPS directory (if you just built the code, you are THERE)
    * geogrid requires the namelist.wps to be modified for various size, geophysical siting, and the location of the GEOG data  
      --> hold on the the original namelist for WPS
-     * `cp namelist.wps namelist.wps.original`  
-        --> use the sample namelist provided inside the container  
-     * `cp /wrf/wrfinput/namelist.wps.docker namelist.wps`  
-     * `./geogrid.exe`  
-       NOTE: takes about 3 seconds
+   * `cp namelist.wps namelist.wps.original`  
+      --> use the sample namelist provided inside the container  
+   * `cp /wrf/wrfinput/namelist.wps.docker namelist.wps`  
+7. Run WPS, GEOGRID
+   * `./geogrid.exe`  
+     NOTE: takes about 3 seconds
 ```
       ls -ls geo_em.d01.nc 
       2672 -rw-r--r-- 1 wrfuser wrf 2736012 Dec  3 19:35 geo_em.d01.nc
 ```
+8. Run WPS, UNGRIB
    * ungrib requires the grib2 data and the correct Vtable
-     * edit the `namelist.wps` file, pay attention to the `&share` and `&ungrib` namelist records - the DATES are important (for this test, that work is already handled)
-     * `./link_grib.csh /wrf/wrfinput/fnl`
-     * `cp ungrib/Variable_Tables/Vtable.GFS Vtable`
-     * `./ungrib.exe`  
-       NOTE: takes about 2 seconds
+   * edit the `namelist.wps` file, pay attention to the `&share` and `&ungrib` namelist records - the DATES are important (for this test, that work is already handled)
+   * `./link_grib.csh /wrf/wrfinput/fnl`
+   * `cp ungrib/Variable_Tables/Vtable.GFS Vtable`
+   * `./ungrib.exe`  
+     NOTE: takes about 2 seconds
 ```
       ls -ls FILE*
       41272 -rw-r--r-- 1 wrfuser wrf 42261264 Nov 30 21:52 FILE:2016-03-23_00
@@ -153,9 +155,10 @@ So far we have built our image (the `docker build` step), we have gone in and ou
       41272 -rw-r--r-- 1 wrfuser wrf 42261264 Nov 30 21:52 FILE:2016-03-23_18
       41272 -rw-r--r-- 1 wrfuser wrf 42261264 Nov 30 21:52 FILE:2016-03-24_00
 ```
+9. Run WPS, METGRID
    * metgrid is usually able to run if both geogrid and ungrib mods to the namelist have been completed
-     * `./metgrid.exe  `
-       NOTE: takes about 2 seconds
+   * `./metgrid.exe`  
+     NOTE: takes about 2 seconds
 ```
       ls -ls met_em.*
       6728 -rw-r--r-- 1 wrfuser wrf 6888308 Dec  3 16:33 met_em.d01.2016-03-23_00:00:00.nc
