@@ -83,18 +83,14 @@ So far we have built our image (the `docker build` step), we have gone in and ou
 2. Build the code
    * cd to the WRF directory, build WRF  
      NOTE: Just to be safe, usually a good idea when starting a new build  
+     NOTE: select build option "34" (GNU with DM parallelism), and choose nesting option "1" (which is just regular, non-moving nests)  
+     NOTE: takes about 9 minutes on my laptop
 ```
     ./clean -a
     ./configure
-```
-
-     NOTE: select build option "34" (GNU with DM parallelism), and choose nesting option "1" (which is just regular, non-moving nests)  
-
-```
     ./compile em_real >&! foo
 ```
 
-     NOTE: takes about 9 minutes on my laptop
 ```
     ls -ls main/*.exe
      41580 -rwxr-xr-x 1 wrfuser wrf 42574576 Nov 30 21:09 main/ndown.exe
