@@ -296,7 +296,7 @@ NOTE: These files are now eligible for any post-processing / visualization that 
 ```
         DATADir = "/kiaat2/bruyerec/WRF/WRFV3_4861/test/em_real/split_files/"
 ```
-      New Line:
+New Line:
 ```
         DATADir = "/wrf/WRF/test/em_real/"
 ```
