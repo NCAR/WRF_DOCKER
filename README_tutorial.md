@@ -171,36 +171,33 @@ So far we have built our image (the `docker build` step), we have gone in and ou
 10. Run Real, initial set up of files and namelist
     * cd WRF directory/test/em_real
     * link the WPS metgrid files locally
-```
-    ln -sf ../../../WPS/met_em* .
-```
     * edit the namelist for the tutorial case
-```
-    cp namelist.input namelist.input.original  
-```
     * NOTE: you can "cheat" with `/wrf/wrfinput/namelist.input.docker` file
 ```
+    ln -sf ../../../WPS/met_em* .
+    cp namelist.input namelist.input.original  
     cp /wrf/wrfinput/namelist.input.docker namelist.input
 ```
 
 11. run real, we are selecting 2 cores just to show how
+    * NOTE: takes about 1 second on my laptop
 
 ```
     mpirun -np 2 ./real.exe  
 ```
-    * NOTE: takes about 1 second on my laptop
+12. run real, inspecting output
     * NOTE: look at the last line of the `rsl.out.0000` file:
 ```
     d01 2016-03-24_00:00:00 real_em: SUCCESS COMPLETE REAL_EM INIT
 ```
-12. Run real, there are some expected files 
+13. Run real, there are some expected files 
 ```
     ls -ls wrfinput_d01 wrfbdy_d01 
     20028 -rw-r--r-- 1 wrfuser wrf 20508248 Dec  3 16:39 wrfbdy_d01
     15868 -rw-r--r-- 1 wrfuser wrf 16247624 Dec  3 16:39 wrfinput_d01
 ```
 
-13. Run WRF
+14. Run WRF
     * run wrf, we are selecting 3 cores to show this can be different than what was chosen for real
     * NOTE: the ending "&" lets the job work in the background and returns control to you
     * NOTE: takes about 7 minutes on my laptop (the first time computes look up tables), approximately 4 minutes on subsequent runs from within the same instance
