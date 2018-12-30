@@ -2,6 +2,60 @@
 
 #	Script to run regression tests within a container
 
+#	The usage part. Remember, we're not just being nice to people ...
+#	we won't remember this stuff at all.
+
+if ( ${#argv} == 0 ) then
+	echo
+	echo "================================================================================================="
+	echo
+	echo "usage: "
+	echo "script.csh BUILD CLEAN|keep  conf_num   nest_opt   compile_target  <conf_opts>    <env_vars>"
+	echo "script.csh BUILD CLEAN         34          1          em_real          -d       WRF_CHEM=1 J=-j@3"
+	echo
+	echo "script.csh RUN  compile_target   conf_opts   data_dir   test_num    <env_vars>"
+	echo "script.csh RUN     em_real          34       em_chem       1     "
+	echo
+	echo "Other couplets that work:"
+	echo
+	echo "script.csh BUILD    CLEAN     34       1          nmm_real  -d   WRF_NMM_CORE=1 J=-j@3"
+	echo "script.csh RUN   nmm_real     34   nmm_nest         01 "
+	echo
+	echo "The CLEAN option may be avoided when a build is known to be similar enough"
+	echo
+	echo "script.csh BUILD    CLEAN     34       1          em_real   -d   J=-j@3"
+	echo "script.csh RUN   em_real      34   em_real          03 "
+	echo
+	echo "script.csh BUILD    keep      34       1      em_quarter_ss -d   J=-j@3"
+	echo "script.csh RUN  em_quarter_ss 34 em_quarter_ss      02NE "
+	echo
+	echo "Another example of similar builds"
+	echo
+	echo "script.csh BUILD    CLEAN     34       1          em_real   -d -r8  J=-j@3"
+	echo "script.csh RUN   em_real      34   em_real8         14 "
+	echo
+	echo "script.csh BUILD    keep      34       1      em_quarter_ss -d -r8  J=-j@3"
+	echo "script.csh RUN  em_quarter_ss 34 em_quarter_ss8     02"     
+	echo
+	echo "Cases that support OpenMP may choose that option:"
+	echo
+	echo "script.csh BUILD    CLEAN     33       1        em_b_wave   -d   J=-j@3"
+	echo "script.csh RUN    em_b_wave   33   em_b_wave        1NE       OMP_NUM_THREADS=3"
+	echo
+	echo "Cases that support Serial are OK also:"
+	echo
+	echo "script.csh BUILD    CLEAN     32       1      em_hill2d_x    -d   J=-j@3"
+	echo "script.csh RUN   em_hill2d_x  33  em_hill2d_x      01   "
+	echo
+	echo "A moving nest case"
+	echo
+	echo "script.csh BUILD    CLEAN     34       3          em_real   -d   J=-j@3"
+	echo "script.csh RUN   em_real      34   em_move          01 "
+	echo
+	echo "================================================================================================="
+	exit (0)
+endif
+
 #	We are either asking for a BUILD or a RUN function. This script is
 #	set up in two pieces (the over arching IF test) based on this value.
 
