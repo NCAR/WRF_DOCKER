@@ -45,4 +45,4 @@ docker   exec  test_001   ./script.csh   RUN   em_real   34   em_real 03
 docker   stop  test_001
 ```
 
-For regression testing, the above two `docker exec` commands should each have a exit status of 0. Additionally, in the [a relative link](README_regtest.md) file, there is explicit information for each test that may be conducted for the regression suite.
+For regression testing, the above two `docker exec` commands should each have a exit status of 0. Additionally, in the [README_regtest.md](README_regtest.md) file, there is explicit information for each test that may be conducted for the regression suite.
