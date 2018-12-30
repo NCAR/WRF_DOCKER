@@ -319,7 +319,7 @@ NOTE: These files are now eligible for any post-processing / visualization that 
       New Line:
 ```
           res@MainTitle = "Docker Test WRF"
-``
+```
   c. Run the NCL script
 ```
     ncl wrf_Precip_multi_files.ncl
