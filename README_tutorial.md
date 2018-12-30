@@ -168,44 +168,46 @@ So far we have built our image (the `docker build` step), we have gone in and ou
       6728 -rw-r--r-- 1 wrfuser wrf 6888308 Dec  3 16:33 met_em.d01.2016-03-24_00:00:00.nc
 ```
 
-4. Run Real
-   * cd WRF directory/test/em_real
-   * link the WPS metgrid files locally
+10. Run Real, initial set up of files and namelist
+    * cd WRF directory/test/em_real
+    * link the WPS metgrid files locally
 ```
     ln -sf ../../../WPS/met_em* .
 ```
-   * edit the namelist for the tutorial case
+    * edit the namelist for the tutorial case
 ```
-    cp namelist.input namelist.input.original
+    cp namelist.input namelist.input.original  
 ```
-    NOTE: you can "cheat" with `/wrf/wrfinput/namelist.input.docker` file
+    * NOTE: you can "cheat" with `/wrf/wrfinput/namelist.input.docker` file
 ```
     cp /wrf/wrfinput/namelist.input.docker namelist.input
 ```
-  d. run real, we are selecting 2 cores just to show how
+
+11. run real, we are selecting 2 cores just to show how
+
 ```
-    mpirun -np 2 ./real.exe
+    mpirun -np 2 ./real.exe  
 ```
-    NOTE: takes about 1 second on my laptop
-    NOTE: look at the last line of the `rsl.out.0000` file:
+    * NOTE: takes about 1 second on my laptop
+    * NOTE: look at the last line of the `rsl.out.0000` file:
 ```
     d01 2016-03-24_00:00:00 real_em: SUCCESS COMPLETE REAL_EM INIT
 ```
-    NOTE: there are some expected files
+12. Run real, there are some expected files 
 ```
     ls -ls wrfinput_d01 wrfbdy_d01 
     20028 -rw-r--r-- 1 wrfuser wrf 20508248 Dec  3 16:39 wrfbdy_d01
     15868 -rw-r--r-- 1 wrfuser wrf 16247624 Dec  3 16:39 wrfinput_d01
 ```
 
-5. Run WRF
-  a. run wrf, we are selecting 3 cores to show this can be different than what was chosen for real
+13. Run WRF
+    * run wrf, we are selecting 3 cores to show this can be different than what was chosen for real
+    * NOTE: the ending "&" lets the job work in the background and returns control to you
+    * NOTE: takes about 7 minutes on my laptop (the first time computes look up tables), approximately 4 minutes on subsequent runs from within the same instance
+    * NOTE: look at the end of the `rsl.out.0000` file
 ```
     mpirun -np 3 ./wrf.exe &
 ```
-    NOTE: the ending "&" lets the job work in the background and returns control to you
-    NOTE: takes about 7 minutes on my laptop (the first time computes look up tables), approximately 4 minutes on subsequent runs from within the same instance
-    NOTE: look at the end of the `rsl.out.0000` file
 ```
     tail rsl.out.0000
     Timing for main: time 2016-03-23_23:39:00 on domain   1:    0.30511 elapsed seconds
@@ -219,7 +221,7 @@ So far we have built our image (the `docker build` step), we have gone in and ou
     Timing for Writing wrfout_d01_2016-03-24_00:00:00 for domain        1:    0.68972 elapsed seconds
     d01 2016-03-24_00:00:00 wrf: SUCCESS COMPLETE WRF
 ```
-    NOTE: expected files
+13. Run WRF, expected files
 ```
     ls -ls wrfo*
     18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:49 wrfout_d01_2016-03-23_00:00:00
