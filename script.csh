@@ -44,8 +44,8 @@ if ( ${#argv} == 0 ) then
 	echo
 	echo "Cases that support Serial are OK also:"
 	echo
-	echo "script.csh BUILD    CLEAN     32       1      em_hill2d_x    -d   J=-j@3"
-	echo "script.csh RUN   em_hill2d_x  33  em_hill2d_x      01   "
+	echo "script.csh BUILD    CLEAN     32       0      em_hill2d_x    -d   J=-j@3"
+	echo "script.csh RUN   em_hill2d_x  32  em_hill2d_x      01   "
 	echo
 	echo "A moving nest case"
 	echo
