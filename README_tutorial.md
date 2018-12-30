@@ -17,7 +17,6 @@ https://docs.docker.com/docker-for-windows/install/
 The NCAR WRF Tutorial staff cannot assist you with this installation. We are not permitted to work on any laptop from a tutorial attendee.
 
 Once you have docker installed, make sure it is working by trying the "hello world" program.
-
 ```
 docker    run    hello-world
 ```
@@ -35,7 +34,7 @@ Now that we have docker working on your machine, we use the two WRF-supplied fil
 To generate our WRF container, we use the `docker build` command, and that command automatically uses the two supplied files. Therefore, both the Dockerfile and the configuration file need to be in the current directory when you issue this `docker build` command.  And _YES_, there really is a period at the end of the following command, and it is really important! 
 
 ```
-docker build -t wrf_tutorial .
+docker   build   -t   wrf_tutorial   .
 ```
 
 This command takes a few minutes (on my 4 year old Mac at home it takes 4.5 minutes, at work with faster internet it takes 3 minutes). Quite a few files are downloaded, so you might want to issue this container `docker build` command when using a reasonable network. For example, NOT with lots of your best friends at the same time at a WRF Tutorial on a guest network. This command would be much better processed at your home institution where you have a fast internet connection. After that, maybe at your hotel would work, but only maybe.
@@ -43,9 +42,8 @@ This command takes a few minutes (on my 4 year old Mac at home it takes 4.5 minu
 #### Running a Docker Instance of the Built Image ####
 
 Now we want to get INTO that container that we have just built. When we issue the following `docker run` command (takes a few seconds to do), note that your command line prompt changes after you issue this command:
-
 ```
-docker run -it --name teachme wrf_tutorial /bin/tcsh
+docker   run   -it   --name   teachme   wrf_tutorial   /bin/tcsh
 ```
 
 You are now in _CONTAINER LAND_. You are running an instance of the "wrf_tutorial" container (we just built it above). We could "run" the container externally, but we prefer that introductory students interact with the source code interactively from within the container. You have named your container instance "teachme". Your default shell is /bin/tcsh, which you could easily switch to /bin/bash from the docker command.
@@ -69,8 +67,7 @@ The WPS source code (WPS directory), the WRF source code (WRF directory), the WP
 
 For this first example, do not be afraid. You cannot break anything, even if you really try. From within the container (in this first example), you cannot modify anything on your laptop. Even within the container things are very safe. If you remove all of the files within the container instance, you can simply exit out of the container, remove that docker container instance, re-issue that `docker run` command, and then you are back to the original pristine version of the WRF container.
 
-FOr example, from within the container, we type `exit`. That pops us back out to the host OS. From there, we remove the existing (currently stopped) instance with the `docker rm` command, and then just type the `docker run` command.
-
+For example, from within the container, we type `exit`. That pops us back out to the host OS. From there, we remove the existing (currently stopped) instance with the `docker rm` command, and then just type the `docker run` command.
 ```
 docker    rm     teachme
 docker   run  -it  --name   teachme  wrf_tutorial   /bin/tcsh
@@ -84,60 +81,74 @@ So far we have built our image (the `docker build` step), we have gone in and ou
 1. Make sure that you are "in" your container instance. You will know this because you have issued the `docker run` command, you are in CONTAINER LAND, and the prompt you see is now your container prompt (something like [wrfuser@efee06a6d22f ~]$  ).
 
 2. Build the code
-  a. cd to the WRF directory, build WRF
-    i. `./clean -a`
-      NOTE: Just to be safe, usually a good idea when starting a new build
-    ii. `./configure`
-      NOTE: select build option "34" (GNU with DM parallelism), and choose nesting option "1" (which is just regular, non-moving nests)
-    iii. `./compile em_real >&! foo`
-      NOTE: takes about 9 minutes on my laptop
-    iv.  `ls -ls main/*.exe`
+   * cd to the WRF directory, build WRF  
+     NOTE: Just to be safe, usually a good idea when starting a new build  
 ```
-         41580 -rwxr-xr-x 1 wrfuser wrf 42574576 Nov 30 21:09 main/ndown.exe
-         41436 -rwxr-xr-x 1 wrfuser wrf 42427024 Nov 30 21:09 main/real.exe
-         40952 -rwxr-xr-x 1 wrfuser wrf 41931864 Nov 30 21:09 main/tc.exe
-         45888 -rwxr-xr-x 1 wrfuser wrf 46988104 Nov 30 21:08 main/wrf.exe
+    ./clean -a
+    ./configure
 ```
-  b. cd to the WPS directory, build WPS
-    i. `./configure`
-      NOTE: select build option "1" (gfortran serial)
-      NOTE: edit the configure.wps, add "-lnetcdff" to the line that has "-lnetcdf", and the libraries have to be in the correct order
-      Original line:
+
+     NOTE: select build option "34" (GNU with DM parallelism), and choose nesting option "1" (which is just regular, non-moving nests)  
+```
+    ./compile em_real >&! foo
+```
+
+     NOTE: takes about 9 minutes on my laptop
+```
+    ls -ls main/*.exe
+     41580 -rwxr-xr-x 1 wrfuser wrf 42574576 Nov 30 21:09 main/ndown.exe
+     41436 -rwxr-xr-x 1 wrfuser wrf 42427024 Nov 30 21:09 main/real.exe
+     40952 -rwxr-xr-x 1 wrfuser wrf 41931864 Nov 30 21:09 main/tc.exe
+     45888 -rwxr-xr-x 1 wrfuser wrf 46988104 Nov 30 21:08 main/wrf.exe
+```
+
+   * cd to the WPS directory, build WPS  
+```
+    ./configure
+```
+
+     NOTE: select build option "1" (gfortran serial)  
+     NOTE: edit the configure.wps, add "-lnetcdff" to the line that has "-lnetcdf", and the libraries have to be in the correct order  
+     Original line:  
 ```
                         -L$(NETCDF)/lib  -lnetcdf
 ```
-      New line:
+
+      New line:  
 ```
                         -L$(NETCDF)/lib  -lnetcdff -lnetcdf
 ```
-    ii. `./compile >&! foo`
-      NOTE: takes 15 s on my laptop
-    iii. `ls -ls *.exe`
 ```
-         0 lrwxrwxrwx 1 wrfuser wrf 23 Nov 30 21:12 geogrid.exe -> geogrid/src/geogrid.exe
-         0 lrwxrwxrwx 1 wrfuser wrf 23 Nov 30 21:12 metgrid.exe -> metgrid/src/metgrid.exe
-         0 lrwxrwxrwx 1 wrfuser wrf 21 Nov 30 21:12 ungrib.exe -> ungrib/src/ungrib.exe
+    ./compile >&! foo
+```
+
+      NOTE: takes 15 s on my laptop  
+```
+    ls -ls *.exe
+    0 lrwxrwxrwx 1 wrfuser wrf 23 Nov 30 21:12 geogrid.exe -> geogrid/src/geogrid.exe
+    0 lrwxrwxrwx 1 wrfuser wrf 23 Nov 30 21:12 metgrid.exe -> metgrid/src/metgrid.exe
+    0 lrwxrwxrwx 1 wrfuser wrf 21 Nov 30 21:12 ungrib.exe -> ungrib/src/ungrib.exe
 ```
 
 3. Run WPS
-  a. cd to the WPS directory (if you just built the code, you are THERE)
-  b. geogrid requires the namelist.wps to be modified for various size, geophysical siting, and the location of the GEOG data
+   * cd to the WPS directory (if you just built the code, you are THERE)
+   * geogrid requires the namelist.wps to be modified for various size, geophysical siting, and the location of the GEOG data  
      --> hold on the the original namelist for WPS
-    i. `cp namelist.wps namelist.wps.original`
-     --> use the sample namelist provided inside the container
-    ii. `cp /wrf/wrfinput/namelist.wps.docker namelist.wps`
-    iii. `./geogrid.exe`
-      NOTE: takes about 3 seconds
+     * `cp namelist.wps namelist.wps.original`  
+        --> use the sample namelist provided inside the container
+     * `cp /wrf/wrfinput/namelist.wps.docker namelist.wps`  
+     * `./geogrid.exe`  
+       NOTE: takes about 3 seconds
 ```
       ls -ls geo_em.d01.nc 
       2672 -rw-r--r-- 1 wrfuser wrf 2736012 Dec  3 19:35 geo_em.d01.nc
 ```
-  c. ungrib requires the grib2 data and the correct Vtable
-    i. edit the `namelist.wps` file, pay attention to the `&share` and `&ungrib` namelist records - the DATES are important (for this test, that work is already handled)
-    ii. `./link_grib.csh /wrf/wrfinput/fnl`
-    iii. `cp ungrib/Variable_Tables/Vtable.GFS Vtable`
-    iv. `./ungrib.exe`
-      NOTE: takes about 2 seconds
+   * ungrib requires the grib2 data and the correct Vtable
+     * edit the `namelist.wps` file, pay attention to the `&share` and `&ungrib` namelist records - the DATES are important (for this test, that work is already handled)
+     * `./link_grib.csh /wrf/wrfinput/fnl`
+     * `cp ungrib/Variable_Tables/Vtable.GFS Vtable`
+     * `./ungrib.exe`  
+       NOTE: takes about 2 seconds
 ```
       ls -ls FILE*
       41272 -rw-r--r-- 1 wrfuser wrf 42261264 Nov 30 21:52 FILE:2016-03-23_00
@@ -146,9 +157,9 @@ So far we have built our image (the `docker build` step), we have gone in and ou
       41272 -rw-r--r-- 1 wrfuser wrf 42261264 Nov 30 21:52 FILE:2016-03-23_18
       41272 -rw-r--r-- 1 wrfuser wrf 42261264 Nov 30 21:52 FILE:2016-03-24_00
 ```
-  d. metgrid is usually able to run if both geogrid and ungrib mods to the namelist have been completed
-    i. `./metgrid.exe`
-      NOTE: takes about 2 seconds
+   * metgrid is usually able to run if both geogrid and ungrib mods to the namelist have been completed
+     * `./metgrid.exe  `
+       NOTE: takes about 2 seconds
 ```
       ls -ls met_em.*
       6728 -rw-r--r-- 1 wrfuser wrf 6888308 Dec  3 16:33 met_em.d01.2016-03-23_00:00:00.nc
@@ -159,12 +170,12 @@ So far we have built our image (the `docker build` step), we have gone in and ou
 ```
 
 4. Run Real
-  a. cd WRF directory/test/em_real
-  b. link the WPS metgrid files locally
+   * cd WRF directory/test/em_real
+   * link the WPS metgrid files locally
 ```
     ln -sf ../../../WPS/met_em* .
 ```
-  c. edit the namelist for the tutorial case
+   * edit the namelist for the tutorial case
 ```
     cp namelist.input namelist.input.original
 ```
