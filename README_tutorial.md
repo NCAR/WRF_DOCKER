@@ -265,7 +265,7 @@ If you are now starting test case 2, go to the top of these instructions and loo
 
 1. There are two methods of constructing imagery with data that is inside a container. The first method is to simply get the data that is inside the container to be visible outide the container. Once that happens, the usual post-processing methods you prefer are available.
 
-   a. Push the WRF output files to the visible volume for easy visualization
+2. Push the WRF output files to the visible volume for easy visualization
 ```
     cp wrfo* /wrf/wrfoutput/
     ls -ls /wrf/wrfoutput
@@ -280,7 +280,7 @@ If you are now starting test case 2, go to the top of these instructions and loo
     18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 20:04 wrfout_d01_2016-03-23_21:00:00
     18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 20:04 wrfout_d01_2016-03-24_00:00:00
 ```
-   b. From outside of the container from from the native host OS (notice the different time zones and different block sizes)
+3. From outside of the container from from the native host OS (notice the different time zones and different block sizes)
 ```
     ls -ls OUTPUT
     total 335664
@@ -297,11 +297,12 @@ If you are now starting test case 2, go to the top of these instructions and loo
 NOTE: These files are now eligible for any post-processing / visualization that is typically done with your WRF model output.
 
 
-2. The built container includes the NCAR COmmand Language. You can run NCL scripts from within container.
-  a. Get to the WRF_NCL_scripts directory (on the same level as WRF and WPS).
-  b. Edit the wrf_Precip_multi_files.ncl file
-    NOTE: Change the location of the WRF output files
-      Original line:
+4. The built container includes the NCAR COmmand Language. You can run NCL scripts from within container.
+   *. Get to the WRF_NCL_scripts directory (on the same level as WRF and WPS).
+   *. Edit the wrf_Precip_multi_files.ncl file  
+
+NOTE: Change the location of the WRF output files  
+Original line:
 ```
         DATADir = "/kiaat2/bruyerec/WRF/WRFV3_4861/test/em_real/split_files/"
 ```
@@ -309,36 +310,39 @@ New Line:
 ```
         DATADir = "/wrf/WRF/test/em_real/"
 ```
-    NOTE: Change the type of plot from x11 (screen image) to pdf (file format)
-      Original Line:
+
+NOTE: Change the type of plot from x11 (screen image) to pdf (file format)  
+Original Line:
 ```
           type = "x11"
         ; type = "pdf"
 ```
-      New Line:
+New Line:
 ```
         ; type = "x11"
           type = "pdf"
 ```
-    NOTE: Change the TITLE to reflect the docker test
-      Original Line:
+
+NOTE: Change the TITLE to reflect the docker test  
+Original Line:
 ```
           res@MainTitle = "REAL-TIME WRF"
 ```
-      New Line:
+New Line:
 ```
           res@MainTitle = "Docker Test WRF"
 ```
-  c. Run the NCL script
+5. Run the NCL script
 ```
     ncl wrf_Precip_multi_files.ncl
 ```
-    NOTE: expected files
+6. Run NCL, expected files
 ```
     ls -ls plt_Precip_multi_files.pdf 
     1944 -rw-r--r-- 1 wrfuser wrf 1986904 Dec  3 20:19 plt_Precip_multi_files.pdf
 ```
-  d. To view this file, put this file in the visible volume directory shared between the original OS and container land.
+7. Run NCL, view files
+   * To view this file, put this file in the visible volume directory shared between the original OS and container land.
 ```
     cp *.pdf /wrf/wrfoutput/
 ```
@@ -354,7 +358,6 @@ docker    start   -ai   teachme
 2. I'm on a windows machine, colons are a problem on the external volume (i.e., my local windows file system).
 
 The WPS and WRF systems use the ":" character as part of the default names. If you want to make those model generated files visible to the outside file system, the colons need to be removed. There are several ways to do this. The easiest is to simply change the filenames in the container's visible directory. The WRF model has an option to remove colons from the file names, but this only works for model output.
-
 ```
 &time_control
  nocolons = .true.
