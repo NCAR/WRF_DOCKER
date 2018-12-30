@@ -80,7 +80,7 @@ So far we have built our image (the `docker build` step), we have gone in and ou
 
 1. Make sure that you are "in" your container instance. You will know this because you have issued the `docker run` command, you are in CONTAINER LAND, and the prompt you see is now your container prompt (something like [wrfuser@efee06a6d22f ~]$  ).
 
-2. Build the code
+2. Build the WRF code
    * cd to the WRF directory, build WRF  
      NOTE: Just to be safe, usually a good idea when starting a new build  
      NOTE: select build option "34" (GNU with DM parallelism), and choose nesting option "1" (which is just regular, non-moving nests)  
@@ -99,40 +99,39 @@ So far we have built our image (the `docker build` step), we have gone in and ou
      45888 -rwxr-xr-x 1 wrfuser wrf 46988104 Nov 30 21:08 main/wrf.exe
 ```
 
-   * cd to the WPS directory, build WPS  
+2. Build the WPS, configure
+   * NOTE: select build option "1" (gfortran serial)  
 ```
+    cd ../WPS
     ./configure
 ```
-
-     NOTE: select build option "1" (gfortran serial)  
-     NOTE: edit the configure.wps, add "-lnetcdff" to the line that has "-lnetcdf", and the libraries have to be in the correct order  
-     Original line:  
+3. Build the WPS, tweaks for the configure script
+   * NOTE: edit the configure.wps, add "-lnetcdff" to the line that has "-lnetcdf", and the libraries have to be in the correct order  
+   * Original line vs new line
 ```
                         -L$(NETCDF)/lib  -lnetcdf
 ```
-
-      New line:  
 ```
                         -L$(NETCDF)/lib  -lnetcdff -lnetcdf
 ```
+4. Build the WPS, compile step
+   * NOTE: takes 15 s on my laptop  
 ```
     ./compile >&! foo
 ```
-
-      NOTE: takes 15 s on my laptop  
+5. Build the WPS, Hey! we have executables!
 ```
     ls -ls *.exe
     0 lrwxrwxrwx 1 wrfuser wrf 23 Nov 30 21:12 geogrid.exe -> geogrid/src/geogrid.exe
     0 lrwxrwxrwx 1 wrfuser wrf 23 Nov 30 21:12 metgrid.exe -> metgrid/src/metgrid.exe
     0 lrwxrwxrwx 1 wrfuser wrf 21 Nov 30 21:12 ungrib.exe -> ungrib/src/ungrib.exe
 ```
-
-3. Run WPS
+6. Run WPS
    * cd to the WPS directory (if you just built the code, you are THERE)
    * geogrid requires the namelist.wps to be modified for various size, geophysical siting, and the location of the GEOG data  
      --> hold on the the original namelist for WPS
      * `cp namelist.wps namelist.wps.original`  
-        --> use the sample namelist provided inside the container
+        --> use the sample namelist provided inside the container  
      * `cp /wrf/wrfinput/namelist.wps.docker namelist.wps`  
      * `./geogrid.exe`  
        NOTE: takes about 3 seconds
