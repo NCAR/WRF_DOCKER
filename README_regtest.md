@@ -1,3 +1,5 @@
+While some of the WRF containers were OK with a default size of 2 GB, the WRF Chem build exhibited problems (such as the registry program saying "killed"). Bumping up the container size to 8 GB works, though that could be larger than required for the small test cases in the regtest suite.
+
 First build the WRF regression image.  This docker build step takes about 10-25 minutes, depending on network speeds. To get started, copy the regtest docker file to the correct name.
 ```
 cp Dockerfile_regtest Dockerfile
@@ -163,4 +165,40 @@ foreach t ( 01 02 )
 end
 
 docker stop test_008
+```
+
+#### WRF Fire ####
+```
+docker run -d -t --name test_009 wrf_regtest
+
+docker exec test_009 ./script.csh BUILD CLEAN 34 1 em_fire -d J=-j@3
+set OK = $status
+echo $OK
+
+
+foreach t ( 01 )
+	docker exec test_009 ./script.csh RUN em_fire 34 em_fire $t
+	set OK = $status
+	echo $OK for test $t
+end
+
+docker stop test_009
+```
+
+#### Ideal: Hill 2d-x ####
+```
+docker run -d -t --name test_010 wrf_regtest
+
+docker exec test_010 ./script.csh BUILD CLEAN 32 0 em_hill2d_x -d J=-j@3
+set OK = $status
+echo $OK
+
+
+foreach t ( 01 )
+	docker exec test_010 ./script.csh RUN em_hill2d_x 32 em_hill2d_x $t
+	set OK = $status
+	echo $OK for test $t
+end
+
+docker stop test_010
 ```
