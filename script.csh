@@ -167,10 +167,49 @@ else if ( $WHICH_FUNCTION == RUN   ) then
 		exit ( 1 )
 	endif
 
+	#	Assign the mandatory inputs, then do the "shift" thing so that
+	#	we may check on env variables that might be there.
+
 	set COMP_BUILD_TARGET = $1
 	set CONF_BUILD_NUM    = $2
 	set COMP_RUN_DIR      = $3
 	set COMP_RUN_TEST     = $4
+	shift
+	shift
+	shift
+	shift
+
+	#	The optional input is for setting env variables. The syntax is
+	#	similar to bash, for example "OMP_NUM_THREADS=3". Neither spaces
+	#	or quotes are allowed in the string. 
+
+	set HAVE_THREADS = FALSE
+	rm .orig_with_at   >& /dev/null
+	rm .new_without_at >& /dev/null
+	set str = @
+	while ( ${#argv} )
+		set PACKAGE = $1
+		set loc = `awk -v a="$PACKAGE" -v b="$str" 'BEGIN{print index(a,b)}'`
+		if ( $loc != 0 ) then
+			echo $PACKAGE > .orig_with_at
+			sed -e 's/@/ /g' .orig_with_at > .new_without_at
+			set PACKAGE = `cat .new_without_at`
+		endif
+		set ARGUMENT =  `echo $PACKAGE | cut -d"=" -f1`
+		set VALUE    = "`echo $PACKAGE | cut -d"=" -f2`"
+		setenv $ARGUMENT "$VALUE"
+
+		#	Hold on to the OpenMP thread count, as we will toggle it
+		#	back and forth between doing real (where we set OpenMP to off) 
+		#	and WRF (where we want to utilize the OpenMP threads).
+
+		if ( $ARGUMENT == OMP_NUM_THREADS ) then
+			set WANT_THREADS = $VALUE
+			set HAVE_THREADS = TRUE
+		endif
+
+		shift
+	end
 
 	#	The input is processed. Get into the WRF directory.
 
@@ -263,6 +302,7 @@ else if ( $WHICH_FUNCTION == RUN   ) then
 		grep -q SUCCESS real.print.out
 		set OK_FOUND_SUCCESS = $status
 	else if ( $CONF_BUILD_NUM == 33 ) then
+		setenv OMP_NUM_THREADS 1
 		${exec} >& real.print.out
 		grep -q SUCCESS real.print.out
 		set OK_FOUND_SUCCESS = $status
@@ -316,6 +356,9 @@ else if ( $WHICH_FUNCTION == RUN   ) then
 		grep -q SUCCESS real.print.out
 		set OK_FOUND_SUCCESS = $status
 	else if ( $CONF_BUILD_NUM == 33 ) then
+		if ( $HAVE_THREADS == TRUE ) then
+			setenv OMP_NUM_THREADS $WANT_THREADS
+		endif
 		wrf.exe >& wrf.print.out
 		grep -q SUCCESS real.print.out
 		set OK_FOUND_SUCCESS = $status
