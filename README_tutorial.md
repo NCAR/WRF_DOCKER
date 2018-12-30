@@ -280,7 +280,7 @@ If you are now starting test case 2, go to the top of these instructions and loo
     18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 20:04 wrfout_d01_2016-03-23_21:00:00
     18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 20:04 wrfout_d01_2016-03-24_00:00:00
 ```
-3. From outside of the container from from the native host OS (notice the different time zones and different block sizes)
+3. From outside of the container from from the native host OS (notice the different time zones and different block sizes, because in this example the host OS is Darwin and the container OS is Linux!).
 ```
     ls -ls OUTPUT
     total 335664
@@ -297,9 +297,9 @@ If you are now starting test case 2, go to the top of these instructions and loo
 NOTE: These files are now eligible for any post-processing / visualization that is typically done with your WRF model output.
 
 
-4. The built container includes the NCAR COmmand Language. You can run NCL scripts from within container.
-   *. Get to the WRF_NCL_scripts directory (on the same level as WRF and WPS).
-   *. Edit the wrf_Precip_multi_files.ncl file  
+4. The built container includes the NCAR Command Language. You can run NCL scripts from within container.
+   * Get to the WRF_NCL_scripts directory (on the same level as WRF and WPS).
+   * Edit the wrf_Precip_multi_files.ncl file  
 
 NOTE: Change the location of the WRF output files  
 Original line:
