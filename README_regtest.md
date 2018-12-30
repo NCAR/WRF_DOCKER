@@ -110,3 +110,57 @@ end
 
 docker stop test_005
 ```
+
+#### EM Real*8 ####
+```
+docker run -d -t --name test_006 wrf_regtest
+
+docker exec test_006 ./script.csh BUILD CLEAN 34 1 em_real -d -r8 J=-j@3
+set OK = $status
+echo $OK
+
+
+foreach t ( 14 16 17 17AD 18 31 31AD 38 74 75 76 77 78 )
+	docker exec test_006 ./script.csh RUN em_real 34 em_real8 $t
+	set OK = $status
+	echo $OK for test $t
+end
+
+docker stop test_006
+```
+
+#### EM QSS*8 ####
+```
+docker run -d -t --name test_007 wrf_regtest
+
+docker exec test_007 ./script.csh BUILD CLEAN 34 1 em_quarter_ss -d -r8 J=-j@3
+set OK = $status
+echo $OK
+
+
+foreach t ( 02 03 04 05 06 08 09 10 )
+	docker exec test_007 ./script.csh RUN em_quarter_ss 34 em_quarter_ss8 $t
+	set OK = $status
+	echo $OK for test $t
+end
+
+docker stop test_007
+```
+
+#### Moving Nest ####
+```
+docker run -d -t --name test_008 wrf_regtest
+
+docker exec test_008 ./script.csh BUILD CLEAN 34 1 em_real -d J=-j@3
+set OK = $status
+echo $OK
+
+
+foreach t ( 01 02 )
+	docker exec test_008 ./script.csh RUN em_real 34 em_move $t
+	set OK = $status
+	echo $OK for test $t
+end
+
+docker stop test_008
+```

@@ -405,7 +405,7 @@ From outside of the container, start the container back up:
 docker start teachme
 ```
 
-Issue a simple command from within the container:
+While remaining in the host OS, issue a simple command to be run from within the container (note the use of the `exec` command):
 ```
 docker exec teachme ls /wrf/WRF/test/em_real | grep wrfo
 wrfout_d01_2016-03-23_00:00:00
@@ -418,6 +418,7 @@ wrfout_d01_2016-03-23_18:00:00
 wrfout_d01_2016-03-23_21:00:00
 wrfout_d01_2016-03-24_00:00:00
 ```
+
 
 But let's say you want to do something more involved and complicated. Here is a short script that gets copied into the shared visible volume:
 ```
