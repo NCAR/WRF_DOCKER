@@ -218,7 +218,7 @@ So far we have built our image (the `docker build` step), we have gone in and ou
     Timing for Writing wrfout_d01_2016-03-24_00:00:00 for domain        1:    0.68972 elapsed seconds
     d01 2016-03-24_00:00:00 wrf: SUCCESS COMPLETE WRF
 ```
-13. Run WRF, expected files
+15. Run WRF, expected files
 ```
     ls -ls wrfo*
     18648 -rw-r--r-- 1 wrfuser wrf 19095444 Dec  3 19:49 wrfout_d01_2016-03-23_00:00:00
