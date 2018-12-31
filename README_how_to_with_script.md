@@ -45,7 +45,7 @@ The other two mandatory command line arguments deal with the specifics of the re
 
 `data_dir`: This information is used when assigning both the namelist and the gridded first-guess data. The available values for `data_dir` can be selected from among the subdirectories of [Namelists/weekly](Namelists/weekly).
 
-`test_num` : Associated with the `data_dir` is which of the available test are to be conducted. For `em_real8`, the available options would be found in [Namelists/weekly/em_real8/MPI](Namelists/weekly/em_real8/MPI)
+`test_num` : Associated with the `data_dir` is which of the available test are to be conducted. For `em_real8`, the available options would be found in [Namelists/weekly/em_real8/MPI](Namelists/weekly/em_real8/MPI). For example, the file namelist.input.07 would be identified in the script call as `07`. This is a character string, so if the leading "0" is present in the filename, it must be part of the `test_num` string.
 
 ##### OPTIONAL ##### 
 
