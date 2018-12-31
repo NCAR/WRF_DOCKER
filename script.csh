@@ -192,6 +192,16 @@ EOF
 			touch /wrf/wrfoutput/FAIL_BUILD_WRF_${COMP_BUILD_TARGET}_${CONF_BUILD_NUM}
 			exit ( 2 )
 		endif
+	
+	else
+		if ( ( -e main/wrf.exe       ) && \
+		     ( -e main/ideal.exe     ) ) then
+			touch /wrf/wrfoutput/SUCCESS_BUILD_WRF_${COMP_BUILD_TARGET}_${CONF_BUILD_NUM}
+			exit ( 0 )
+		else
+			touch /wrf/wrfoutput/FAIL_BUILD_WRF_${COMP_BUILD_TARGET}_${CONF_BUILD_NUM}
+			exit ( 2 )
+		endif
 	endif
 
 #	That is the end of the BUILD phase.
