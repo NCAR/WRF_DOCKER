@@ -1,0 +1,95 @@
+ &time_control
+ run_days = 0 ,
+ run_hours = 0 ,   
+ run_minutes = 45,
+ run_seconds = 0,
+ start_year                          = 2008,
+ start_month                         = 01,
+ start_day                           = 11,
+ start_hour                          = 00,
+ start_minute                        = 00,
+ start_second                        = 00,
+ tstart                              = 00,
+ end_year                            = 2008,
+ end_month                           = 01,
+ end_day                             = 11,
+ end_hour                            = 18,
+ end_minute                          = 00,
+ end_second                          = 00,
+ interval_seconds                    = 21600,
+ history_interval                    = 45,
+ frames_per_outfile                  = 1000,
+ restart                             = .false.,
+ restart_interval                    = 21600,
+ reset_simulation_start              = F,
+ io_form_input                       = 2
+ io_form_history                     = 2
+ io_form_restart                     = 2
+ io_form_boundary                    = 2
+ io_form_auxinput1                   = 2
+ debug_level                         = 0,
+ /
+
+ &domains
+ time_step                           = 90,
+ time_step_fract_num                 = 0,
+ time_step_fract_den                 = 7,
+ max_dom                             = 1,
+ e_we                                = 20,
+ e_sn                                = 40,
+ e_vert                              = 28,
+ num_metgrid_levels                  = 27,
+ num_metgrid_soil_levels             = 4,
+ dx                                  = 0.289143,
+ dy                                  = 0.287764,
+ p_top_requested                     = 5000.,
+ ptsgm                               = 42000.,
+/
+
+ &physics
+ mp_physics                          = 5,        5,
+ ra_lw_physics                       = 99,       99,
+ ra_sw_physics                       = 99,       99,
+ nrads                               = 12,      29,
+ nradl                               = 12,      29,
+ co2tf                               = 1,
+ sf_sfclay_physics                   = 2,        2,
+ sf_surface_physics                  = 2,        2, 
+ bl_pbl_physics                      = 2,        2,
+ nphs                                = 4,        18,
+ cu_physics                          = 2,
+ ncnvc                               = 4,
+ tprec                               = 3,
+ theat                               = 6,
+ tclod                               = 6,
+ trdsw                               = 6,
+ trdlw                               = 6,
+ tsrfc                               = 6,
+ pcpflg                              = .false.,
+ isfflx                              = 0,
+ ifsnow                              = 0,
+ icloud                              = 0,
+ num_soil_layers                     = 4,
+ mp_zero_out                         = 0
+ gwd_opt                             = 2
+ /
+
+ &dynamics
+ /
+
+ &bdy_control
+ spec_bdy_width                      = 1,
+ specified                           = .true.,
+ nested                              = .false.
+ /
+
+ &grib2
+/
+
+ &namelist_quilt
+ nio_tasks_per_group = 0,
+ nio_groups = 1
+ /
+
+LSF_TIME=0:10
+NQS_TIME=0:10:00

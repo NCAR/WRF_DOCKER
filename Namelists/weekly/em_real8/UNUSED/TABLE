@@ -1,0 +1,25 @@
+NL      PBL     CU      MP      LW      SW      SFC     LAND    SHCU    TOPO
+4       1       4       4       1       1       1       8       0       0       #  BFB
+11      7       4       14      3       3       7       1       0       0       #  BFB
+18      1       1       11      1       2       1       2       0       0       #  BFB
+21      1       1       17      1       1       1       1       0       1       #  SEGFAULT
+22      4       3       18      4       4       4       1       0       0       #  SEGFAULT
+23      7       5       19      5       5       7       7       0       0       #  BFB
+24      8       6       21      4       4       2       1       0       0       #  BFB
+27      1       1       1       1       1       1       1       3       1       #  BFB
+28      1       2       4       3       3       1       4       3       1       #  BFB
+
+
+
+If we replace mp_physics=17,18 with any other microphysics scheme (e.g. 6), then forecasts complete.
+We sent notification of this to Wei.
+
+For test #18, if we swap mp=11 for anything else (such as 16), we get BFB pass results.  This is the only test for mp=11, and that probably means that this is the reason for BFB failures.  
+
+For test #27 and #28, if we replace shcu=3 for shcu=0, then we get BFB pass results.   However, #28 with shcu=3 DOES pass BFB if the gfortran compiler is used. 
+
+Test #4, both cu=4 (oldsass) and surface=8 (ssibscheme), individually cause BFB failures.   Together, they do also. 
+
+For test #11, cu=4 (oldsass) causes BFB failures, as it does in test #4.  
+
+

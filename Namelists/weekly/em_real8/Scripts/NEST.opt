@@ -1,0 +1,5 @@
+ num_moves                           = 3
+ move_id                             = 2 , 2 , 2
+ move_interval                       = 3 , 6 , 9
+ move_cd_x                           = 1 , 1 , 1
+ move_cd_y                           = 1 , 1 , 1
