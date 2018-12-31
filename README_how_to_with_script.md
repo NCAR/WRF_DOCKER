@@ -13,7 +13,7 @@ The script is case sensitive and order sensitive.  The script understands the ke
 
 ##### MANDATORY ##### 
 
-When the initial keyword is `BUILD`, the script expects three mandatory entries: `clean_opt`, `conf_num`, `nest_opt`, and `build_opt`.
+When the initial keyword is `BUILD`, the script expects four mandatory entries: `clean_opt`, `conf_num`, `nest_opt`, and `build_opt`.
 
 `clean_opt`: If this valis is `CLEAN`, then the clean script is run. Any other string is interpreted as "do not run the clean script".
 
@@ -31,4 +31,22 @@ The `env_var=val` options are environment variables that are required to be set 
 
 
 #### RUN ####
+```
+./script.csh RUN build_opt conf_num data_dir test_num <env_var1=val1 <env_var2=val2>>
+```
 
+##### MANDATORY ##### 
+
+When the initial keyword is `RUN`, the script expects four mandatory entries: `build_opt`, `conf_num`, `data_dir`, and `test_num`.
+
+Two of these options are required to be sync'ed with the `BUILD` call: `build_opt` and `conf_num`. If we build with `em_real`, then we need to run with `em_real`. Similarly, if we build with for MPI, we need to run with MPI.
+
+The other two mandatory command line arguments deal with the specifics of the regression testing system: what is the subdirectory where the data is located for this specific model set up, and what specific test number is to be conducted.
+
+`data_dir`: This information is used when assigning both the namelist and the gridded first-guess data. The available values for `data_dir` can be selected from among the subdirectories of [Namelists/weekly](Namelists/weekly).
+
+`test_num` : Associated with the `data_dir` is which of the available test are to be conducted. For `em_real8`, the available options would be found in [Namelists/weekly/em_real8/MPI](Namelists/weekly/em_real8/MPI)
+
+##### OPTIONAL ##### 
+
+The `env_var=val` options are environment variables that are required to be set prior to the run of the WRF system. The only example of this is setting the number of threads before an OpenMP run: `OMP_NUM_THREADS=3`.
