@@ -64,6 +64,6 @@ The `env_var=val` options are environment variables that are required to be set 
 | em_quarter_ss   | em_quarter_ss   | 32, 33, 34 | 02 02NE 03 03NE 04 04NE 05 05NE 06 06NE 08 09 10 11NE 12NE 13NE 14NE |
 | em_quarter_ss8  | em_quarter_ss8  | 32, 33, 34 | 02 03 04 05 06 08 09 10 |
 | em_real         | em_real         | 32, 33, 34 | 01 01ST 02 02GR 02ST 03 03DF 03FD 03ST 03VN 04FD 05 05AD 05ST 06 06BN 06VN 07 07NE 07VN 08 09 09QT 10 10VN 11 12 12GR 13 14 14VN 15 15AD 16 16BN 16DF 16VN 17 17AD 17VN 18 18BN 18VN 19 20 20NE 20VN 21 25 26 29 29QT 30 31 31AD 31VN 32 33 34 35 37 38 38AD 38VN 39 39AD 40 41 42 42VN 43 48 48VN 49 49VN 50 50VN 51 52 52DF 52FD 52VN 54 55FD 56 56NE 56VN 57 57NE 58 58NE 60 60NE 61 61NE 62 63 64 64FD 64VN 65DF 66FD 67 67NE 68 68NE 69 70 71 72 73 74 75 76 76NE 77 77NE 78 global |
-| em_real8        | em_real         | 32, 33, 34 | i07 14 16 17 17AD 18 31 31AD 38 74 75 76 77 78 |
+| em_real8        | em_real         | 32, 33, 34 | 07 14 16 17 17AD 18 31 31AD 38 74 75 76 77 78 |
 | nmm_nest        | nmm_real        | 32,     34 | 02 08 09 12 13 14 |
 
