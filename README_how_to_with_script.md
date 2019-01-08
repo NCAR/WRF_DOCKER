@@ -15,7 +15,7 @@ The script is case sensitive and order sensitive.  The script understands the ke
 
 When the initial keyword is `BUILD`, the script expects four mandatory entries: `clean_opt`, `conf_num`, `nest_opt`, and `build_opt`.
 
-`clean_opt`: If this valis is `CLEAN`, then the clean script is run. Any other string is interpreted as "do not run the clean script".
+`clean_opt`: If this value is `CLEAN`, then the clean script is run. Any other string is interpreted as "do not run the clean script".
 
 `conf_num` : When issuing the `./configure` commmand inside the WRF system, this is the numerical entry that is selected by the user, for example `32` means serial build for GNU. For this container, only 32, 33, or 34 are permissible.
 
