@@ -1,4 +1,4 @@
-### Docker Container for WRF #testingPR
+### Docker Container for WRF #testingBasedOnBranch
 
 John Exby and Kate Fossell provided a method to encapsulate the WRF modeling system with a container. 
 
