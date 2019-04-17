@@ -17,9 +17,13 @@ We can verify that we have this container running:
 ```
 docker ps -a
 ```
-For test 001, we are going to do an MPI build for em_real, single precision, with configure -d (currently, must be GNU). Depending on your processor, this takes about 5 minutes to build the WRF executable from source.
+For test 001, we are going to do an MPI build for em_real, single precision, with configure -d (currently, must be GNU). Depending on your processor, this takes about 5 minutes to build the WRF executable from source. For GNU versions 6 and 7, the "-d" option on configure causes troubles with various RRTMG codes (internal compiler error!). To speed up the build, assume that we have parallel make running with up to three processes.
 ```
-docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d
+docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real -d J=-j@3
+```
+Perhaps this is required to get the WRF RRTMG compiles working.
+```
+docker exec test_001 ./script.csh BUILD CLEAN 34 1 em_real J=-j@3
 ```
 There are two ways to see if this was successful. We can either look at the return code:
 ```
@@ -48,7 +52,7 @@ Without additional explanation, the following are built, run, and (importantly) 
 ```
 docker run -d -t --name test_002 wrf_regtest
 
-docker exec test_002 ./script.csh BUILD CLEAN 34 1 nmm_real -d WRF_NMM_CORE=1
+docker exec test_002 ./script.csh BUILD CLEAN 34 1 nmm_real -d WRF_NMM_CORE=1 J=-j@3
 set OK = $status
 echo $OK
 
@@ -65,7 +69,7 @@ docker stop test_002
 ```
 docker run -d -t --name test_003 wrf_regtest
 
-docker exec test_003 ./script.csh BUILD CLEAN 34 1 em_real -d WRF_CHEM=1
+docker exec test_003 ./script.csh BUILD CLEAN 34 1 em_real -d WRF_CHEM=1 J=-j@3
 set OK = $status
 echo $OK
 
