@@ -31,10 +31,10 @@ If this works, you get a short "Hello from Docker!" message, something like belo
 
 Now that we have docker working on your machine, we use the two WRF-supplied files: Dockerfile and default-mca-params.conf. They are both text files, so feel free to peek inside to see what they are doing. The Dockerfile, the bigger file, sets up the whole environment within the container: directories, compiler versions, environment variables, lots of libraries, netcdf, MPI, WRF and WPS source code, WPS_GEOG data, grib2 data - _EVERYTHING_. The smaller file contains some information to allow openmpi to run on multiple cores.
 
-To generate our WRF container, we use the `docker build` command, and that command automatically uses the two supplied files. Therefore, both the Dockerfile and the configuration file need to be in the current directory when you issue this `docker build` command.  And _YES_, there really is a period at the end of the following command, and it is really important! 
+To generate our WRF container, we use the `docker build` command, and that command automatically uses the two supplied files. Therefore, both the Dockerfile and the configuration file need to be in the current directory when you issue this `docker build` command.  The `argname=tutorial` option sends information to the Dockerfile regarding what files to download. And _YES_, there really is a period at the end of the following command, and it is really important! 
 
 ```
-docker   build   -t   wrf_tutorial   .
+docker   build   -t   wrf_tutorial   --build-arg argname=tutorial   .
 ```
 
 This command takes a few minutes (on my 4 year old Mac at home it takes 4.5 minutes, at work with faster internet it takes 3 minutes). Quite a few files are downloaded, so you might want to issue this container `docker build` command when using a reasonable network. For example, NOT with lots of your best friends at the same time at a WRF Tutorial on a guest network. This command would be much better processed at your home institution where you have a fast internet connection. After that, maybe at your hotel would work, but only maybe.
