@@ -38,8 +38,8 @@ RUN source /opt/rh/devtoolset-8/enable \
  && curl -L -O https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.0.tar.gz \
  && tar -xf openmpi-4.0.0.tar.gz \
  && cd openmpi-4.0.0 \
- && ./configure --prefix=/usr/local \
- && make all install \
+ && ./configure --prefix=/usr/local &> /wrf/libs/build_log_openmpi_config \
+ && make all install &> /wrf/libs/build_log_openmpi_make \
  && cd / \
  && rm -rf /wrf/libs/openmpi/BUILD_DIR
 
@@ -50,8 +50,8 @@ RUN source /opt/rh/devtoolset-8/enable \
  && git clone https://bitbucket.hdfgroup.org/scm/hdffv/hdf5.git \
  && cd hdf5 \
  && git checkout hdf5-1_10_4 \
- && ./configure --enable-fortran --enable-cxx --prefix=/usr/local/ \
- && make install \
+ && ./configure --enable-fortran --enable-cxx --prefix=/usr/local/ &> /wrf/libs/build_log_hdf5_config \
+ && make install &> /wrf/libs/build_log_hdf5_make \
  && rm -rf /wrf/libs/hdf5/BUILD_DIR
 ENV LD_LIBRARY_PATH /usr/local/lib
 
@@ -65,16 +65,16 @@ RUN source /opt/rh/devtoolset-8/enable \
  && curl -L -O https://github.com/Unidata/netcdf-fortran/archive/v4.4.5.tar.gz \
  && tar -xf v4.6.2.tar.gz \
  && cd netcdf-c-4.6.2 \
- && ./configure --prefix=${NETCDF} \
- && make install 
+ && ./configure --prefix=${NETCDF} &> /wrf/libs/build_log_ncc_config \
+ && make install &> /wrf/libs/build_log_ncc_make
 RUN source /opt/rh/devtoolset-8/enable \
  && env \
  && cd ${NETCDF}/BUILD_DIR \
  && tar -xf v4.4.5.tar.gz \
  && cd netcdf-fortran-4.4.5/ \
  && export LD_LIBRARY_PATH=${NETCDF}/lib:${LD_LIBRARY_PATH} \
- && CPPFLAGS=-I${NETCDF}/include LDFLAGS=-L${NETCDF}/lib ./configure --prefix=${NETCDF} \
- && make install
+ && CPPFLAGS=-I${NETCDF}/include LDFLAGS=-L${NETCDF}/lib ./configure --prefix=${NETCDF} &> /wrf/libs/build_log_ncf_config \
+ && make install &> /wrf/libs/build_log_ncf_make
 
 RUN mkdir -p /var/run/sshd \
     && ssh-keygen -A \
