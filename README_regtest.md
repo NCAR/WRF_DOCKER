@@ -3,7 +3,7 @@ While some of the WRF containers were OK with a default size of 2 GB, the WRF Ch
 First build the WRF regression image.  This docker build step takes about 10-25 minutes, depending on network speeds. To get started, copy the regtest docker file to the correct name.
 ```
 cp Dockerfile_regtest Dockerfile
-docker build -t wrf_regtest .
+docker build -t wrf_regtest --build-arg argname=regtest .
 ```
 You can verify that you have an image created:
 ```
