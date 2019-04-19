@@ -41,6 +41,15 @@ foreach t ( 03 03DF 03FD 03VN 06 06VN 07 07NE 07VN 09 09QT 10 10VN 11 14 16 16DF
 	echo $OK for test $t
 end
 ```
+Tests that always work: toss out VN, BN, GR, things with RRTMG fast (not built usually), and use only Jan 2000 cases.
+```
+foreach t ( 01 01ST 02 02ST 03DF 03FD 04FD 07 07NE 08 10 11 13 14 15 15AD 16 16DF 17 17AD 18 19 20 20NE 25 26 29 29QT 30 31 31AD 32 35 38 38AD 39 39AD 43 52DF 52FD 55FD 60NE 61NE 64 64FD 65DF 66FD 69 70 71 74 75 78 )
+	docker exec test_001 ./script.csh RUN em_real 34 em_real $t
+	set OK = $status
+	echo $OK for test $t
+end
+
+```
 Because we set up the container to keep running, we need to explicitly stop it.
 ```
 docker stop test_001
