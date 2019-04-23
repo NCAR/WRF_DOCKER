@@ -36,7 +36,7 @@ docker exec test_001 ls -ls WRF/main
 After the executables are built, we can use this container to run a large number of tests. We test after each one to make sure things are OK:
 ```
 foreach t ( 03 03DF 03FD 03VN 06 06VN 07 07NE 07VN 09 09QT 10 10VN 11 14 16 16DF 16VN 17 17AD 17VN 18 18VN 20 20NE 20VN 21 31 31AD 31VN 38 38VN 42 42VN 48 48VN 49 49VN 50 50VN 51 52 52DF 52FD 52VN 56 56NE 56VN 57 57NE 58 58NE 60 60NE 62 65DF 66FD 67 67NE 68 68NE 71 72 73 76 76NE 77 77NE 78 global )
-	docker exec test_001 ./script.csh RUN em_real 34 em_real $t
+	docker exec test_001 ./script.csh RUN em_real 34 em_real $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
@@ -44,7 +44,7 @@ end
 Tests that always work: toss out VN, BN, GR, things with RRTMG fast (not built usually), and use only Jan 2000 cases.
 ```
 foreach t ( 01 01ST 02 02ST 03DF 03FD 04FD 07 07NE 08 10 11 13 14 15 15AD 16 16DF 17 17AD 18 19 20 20NE 25 26 29 29QT 30 31 31AD 32 35 38 38AD 39 39AD 43 52DF 52FD 55FD 60NE 61NE 64 64FD 65DF 66FD 69 70 71 74 75 78 )
-	docker exec test_001 ./script.csh RUN em_real 34 em_real $t
+	docker exec test_001 ./script.csh RUN em_real 34 em_real $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
@@ -65,7 +65,7 @@ set OK = $status
 echo $OK
 
 foreach t ( 01 01c 03 04a 06 07 15 )
-	docker exec test_002 ./script.csh RUN nmm_real 34 nmm_nest $t
+	docker exec test_002 ./script.csh RUN nmm_real 34 nmm_nest $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
@@ -82,7 +82,7 @@ set OK = $status
 echo $OK
 
 foreach t ( 1 2 5 )
-	docker exec test_003 ./script.csh RUN em_real 34 em_chem $t
+	docker exec test_003 ./script.csh RUN em_real 34 em_chem $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
@@ -99,7 +99,7 @@ set OK = $status
 echo $OK
 
 foreach t ( 02 02NE 03 03NE 04 04NE 05 05NE 06 06NE 08 09 10 11NE 12NE 13NE 14NE )
-	docker exec test_004 ./script.csh RUN em_quarter_ss 34 em_quarter_ss $t
+	docker exec test_004 ./script.csh RUN em_quarter_ss 34 em_quarter_ss $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
@@ -117,7 +117,7 @@ echo $OK
 
 
 foreach t ( 1 1NE 2 2NE 3 3NE 4 4NE 5 5NE )
-	docker exec test_005 ./script.csh RUN em_b_wave 34 em_b_wave $t
+	docker exec test_005 ./script.csh RUN em_b_wave 34 em_b_wave $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
@@ -135,7 +135,7 @@ echo $OK
 
 
 foreach t ( 14 16 17 17AD 18 31 31AD 38 74 75 76 77 78 )
-	docker exec test_006 ./script.csh RUN em_real 34 em_real8 $t
+	docker exec test_006 ./script.csh RUN em_real 34 em_real8 $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
@@ -153,7 +153,7 @@ echo $OK
 
 
 foreach t ( 02 03 04 05 06 08 09 10 )
-	docker exec test_007 ./script.csh RUN em_quarter_ss 34 em_quarter_ss8 $t
+	docker exec test_007 ./script.csh RUN em_quarter_ss 34 em_quarter_ss8 $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
@@ -171,7 +171,7 @@ echo $OK
 
 
 foreach t ( 01 02 )
-	docker exec test_008 ./script.csh RUN em_real 34 em_move $t
+	docker exec test_008 ./script.csh RUN em_real 34 em_move $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
@@ -189,7 +189,7 @@ echo $OK
 
 
 foreach t ( 01 )
-	docker exec test_009 ./script.csh RUN em_fire 34 em_fire $t
+	docker exec test_009 ./script.csh RUN em_fire 34 em_fire $t NP=3
 	set OK = $status
 	echo $OK for test $t
 end
