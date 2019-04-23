@@ -165,7 +165,7 @@ docker stop test_007
 ```
 docker run -d -t --name test_008 wrf_regtest
 
-docker exec test_008 ./script.csh BUILD CLEAN 34 1 em_real -d J=-j@3
+docker exec test_008 ./script.csh BUILD CLEAN 34 3 em_real -d J=-j@3
 set OK = $status
 echo $OK
 
