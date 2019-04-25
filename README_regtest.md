@@ -214,3 +214,42 @@ end
 
 docker stop test_010
 ```
+
+#### List of all Possible Builds ####
+
+Here is a list of all of the currently available / supported builds for the WRF modeling system. No WRF DA (3dvar, 4dvar, WRFPlus) and no WRF Hydro are included in this set.
+```
+docker exec test_001s ./script.csh BUILD CLEAN 32 1 em_real J=-j@3
+docker exec test_001o ./script.csh BUILD CLEAN 33 1 em_real J=-j@3
+docker exec test_001m ./script.csh BUILD CLEAN 34 1 em_real J=-j@3
+
+docker exec test_002s ./script.csh BUILD CLEAN 32 1 nmm_real -d WRF_NMM_CORE=1 J=-j@3
+docker exec test_002m ./script.csh BUILD CLEAN 34 1 nmm_real -d WRF_NMM_CORE=1 J=-j@3
+
+docker exec test_003s ./script.csh BUILD CLEAN 32 1 em_real -d WRF_CHEM=1 J=-j@3
+docker exec test_003m ./script.csh BUILD CLEAN 34 1 em_real -d WRF_CHEM=1 J=-j@3
+
+docker exec test_004s ./script.csh BUILD CLEAN 32 1 em_quarter_ss -d J=-j@3
+docker exec test_004o ./script.csh BUILD CLEAN 33 1 em_quarter_ss -d J=-j@3
+docker exec test_004m ./script.csh BUILD CLEAN 34 1 em_quarter_ss -d J=-j@3
+
+docker exec test_005s ./script.csh BUILD CLEAN 32 1 em_b_wave -d J=-j@3
+docker exec test_005o ./script.csh BUILD CLEAN 33 1 em_b_wave -d J=-j@3
+docker exec test_005m ./script.csh BUILD CLEAN 34 1 em_b_wave -d J=-j@3
+
+docker exec test_006s ./script.csh BUILD CLEAN 32 1 em_real -d -r8 J=-j@3
+docker exec test_006o ./script.csh BUILD CLEAN 33 1 em_real -d -r8 J=-j@3
+docker exec test_006m ./script.csh BUILD CLEAN 34 1 em_real -d -r8 J=-j@3
+
+docker exec test_007s ./script.csh BUILD CLEAN 32 1 em_quarter_ss -d -r8 J=-j@3
+docker exec test_007o ./script.csh BUILD CLEAN 33 1 em_quarter_ss -d -r8 J=-j@3
+docker exec test_007m ./script.csh BUILD CLEAN 34 1 em_quarter_ss -d -r8 J=-j@3
+
+docker exec test_008m ./script.csh BUILD CLEAN 34 3 em_real -d J=-j@3
+
+docker exec test_009s ./script.csh BUILD CLEAN 32 1 em_fire -d J=-j@3
+docker exec test_009o ./script.csh BUILD CLEAN 33 1 em_fire -d J=-j@3
+docker exec test_009m ./script.csh BUILD CLEAN 34 1 em_fire -d J=-j@3
+
+docker exec test_010s ./script.csh BUILD CLEAN 32 0 em_hill2d_x -d J=-j@3
+```
