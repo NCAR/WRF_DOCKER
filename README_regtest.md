@@ -48,7 +48,14 @@ foreach t ( 01 01ST 02 02ST 03DF 03FD 04FD 07 07NE 08 10 11 13 14 15 15AD 16 16D
 	set OK = $status
 	echo $OK for test $t
 end
-
+```
+Now with only cases that have SERIAL, OPENMP, MPI:
+```
+foreach t ( 03DF 03FD 07 07NE 10 11 14 16 16DF 17 17AD 18 20 20NE 31 31AD 38 52DF 52FD 60NE 71 78 )
+	docker exec test_001 ./script.csh RUN em_real 34 em_real $t NP=3
+	set OK = $status
+	echo $OK for test $t
+end
 ```
 Because we set up the container to keep running, we need to explicitly stop it.
 ```
