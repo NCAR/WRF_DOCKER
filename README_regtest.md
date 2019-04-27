@@ -1,4 +1,4 @@
-While some of the WRF containers were OK with a default size of 2 GB, the WRF Chem build exhibited problems (such as the registry program saying "killed"). Bumping up the container size to 8 GB works, though that could be larger than required for the small test cases in the regtest suite.
+While some of the WRF containers were OK with a default size of 2 GB, the WRF Chem build exhibited problems (such as the registry program saying "killed"). Bumping up the container size to 12 GB works, though that could be larger than required for the small test cases in the regtest suite.
 
 First build the WRF regression image.  This docker build step takes about 10-25 minutes, depending on network speeds. 
 ```
