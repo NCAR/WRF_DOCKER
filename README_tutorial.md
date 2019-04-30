@@ -395,6 +395,14 @@ The Mac disk image grows every time a new docker image is started. Could also be
 ```
 rm ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/Docker.qcow2
 ```
+When a number of docker images have been built and removed, there is a likelihood of leaving around unused volumes.
+```
+docker system df
+```
+If there are any volumes that you do not need (you have removed images and containers), then this can clean up _A LOT_ of disk space:
+```
+docker volume prune -f
+```
 
 
 
