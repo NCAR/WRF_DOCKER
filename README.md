@@ -25,6 +25,7 @@ ln -sf Dockerfile_regtest Dockerfile
 
 #### Tutorial ####
 
+
 The [README_tutorial.md](README_tutorial.md) has step-by-step instructions to run the entire WRF system, from geogrid through generating PDF files with model output. We go "into" the container for the tutorial case. This is a mechanical process of the required process to churn through the modeling system parts.
 
 ```
