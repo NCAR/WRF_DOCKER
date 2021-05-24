@@ -1,5 +1,6 @@
 #
-FROM centos:latest
+#FROM centos:latest - some users reported problems with yum
+FROM centos:7
 MAINTAINER Dave Gill <gill@ucar.edu>
 
 ENV WRF_VERSION 4.0.3
