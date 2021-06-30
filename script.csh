@@ -3,7 +3,9 @@
 #	Script to run regression tests within a container
 
 #	The usage part. Remember, we're not just being nice to people ...
-#	we won't remember this stuff at all.
+#	we won't remember this stuff at all. The "at" characters in the
+#	environment variables are to hold spaces. Those embedded "at" 
+#	characters will be deleted later in the script.
 
 if ( ${#argv} == 0 ) then
 	echo

@@ -1,4 +1,4 @@
-### Docker Container for WRF ###
+### Docker Container for WRF
 
 John Exby and Kate Fossell provided a method to encapsulate the WRF modeling system with a container. 
 
@@ -27,6 +27,7 @@ ln -sf Dockerfile_regtest Dockerfile
 
 The [README_tutorial.md](README_tutorial.md) has step-by-step instructions to run the entire WRF system, from geogrid through generating PDF files with model output. We go "into" the container for the tutorial case. This is a mechanical process of the required process to churn through the modeling system parts.
 
+
 ```
 docker   build   -t   wrf_tutorial  .
 mkdir OUTPUT
@@ -46,3 +47,5 @@ docker   stop  test_001
 ```
 
 For regression testing, the above two `docker exec` commands should each have a exit status of 0. Additionally, in the [README_regtest.md](README_regtest.md) file, there is explicit information for each test that may be conducted for the regression suite.
+
+Hutch added this line for real this time
